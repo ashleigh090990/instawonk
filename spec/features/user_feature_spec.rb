@@ -9,7 +9,7 @@ feature 'User' do
                 followed_by: '1000000000')
     User.create(username: 'AmIsBetter',
                 full_name: 'Ashleigh',
-                bio: 'The coolest everrrr',
+                bio: 'The coolest EVER',
                 follows: '0',
                 followed_by: '1000000001')
   end
@@ -34,24 +34,33 @@ feature 'User' do
     expect(page).to have_selector "a[href='https://instagram.com/AhIsCool']"
   end
 
-  scenario 'can search a term and will output a user with that term in bio' do
+  scenario 'can search a term in various cases and will output a user with that term in lowercase in their bio' do
     visit '/'
-    fill_in 'Search', with: 'coolest'
+    fill_in 'Search', with: 'COOlest'
     click_button 'Search'
-    expect(page).to have_content 'The coolest everrrr'
+    expect(page).to have_content 'The coolest EVER'
     expect(page).to have_content 'Ashleigh'
     expect(page).not_to have_content 'Cooler than you megalolz'
     expect(page).not_to have_content 'Alex Handy'
   end
 
-# The following isn't passing... yet!
-  # scenario 'can search a term in capitals and will output a user with that term in bio regardless of state' do
-  #   visit '/'
-  #   fill_in 'Search', with: 'COOLEST'
-  #   click_button 'Search'
-  #   expect(page).to have_content 'The coolest everrrr'
-  #   expect(page).to have_content 'Ashleigh'
-  #   expect(page).not_to have_content 'Cooler than you megalolz'
-  #   expect(page).not_to have_content 'Alex Handy'
-  # end
+  scenario 'can search a term in capitals and will output a user with that term in bio in lower case' do
+    visit '/'
+    fill_in 'Search', with: 'ever'
+    click_button 'Search'
+    expect(page).to have_content 'The coolest EVER'
+    expect(page).to have_content 'Ashleigh'
+    expect(page).not_to have_content 'Cooler than you megalolz'
+    expect(page).not_to have_content 'Alex Handy'
+  end
+
+  scenario 'can search a term and will output a user with that term in bio regardless of state' do
+    visit '/'
+    fill_in 'Search', with: 'cooler'
+    click_button 'Search'
+    expect(page).not_to have_content 'The coolest EVER'
+    expect(page).not_to have_content 'Ashleigh'
+    expect(page).to have_content 'Cooler than you megalolz'
+    expect(page).to have_content 'Alex Handy'
+  end
 end
