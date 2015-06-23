@@ -44,7 +44,7 @@ feature 'User' do
     expect(page).not_to have_content 'Alex Handy'
   end
 
-  scenario 'can search a term in capitals and will output a user with that term in bio in lower case' do
+  xscenario 'can search a term in capitals and will output a user with that term in bio in upper case' do
     visit '/'
     fill_in 'Search', with: 'ever'
     click_button 'Search'
@@ -54,7 +54,7 @@ feature 'User' do
     expect(page).not_to have_content 'Alex Handy'
   end
 
-  scenario 'can search a term and will output a user with that term in bio regardless of state' do
+  xscenario 'can search a term and will output a user with that term in bio regardless of state' do
     visit '/'
     fill_in 'Search', with: 'cooler'
     click_button 'Search'
